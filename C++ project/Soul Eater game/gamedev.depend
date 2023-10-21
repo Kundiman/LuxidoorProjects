@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1652868797 source:d:\kim\kundiman-ched\sem2\ccc102\lab\gamedev\main.cpp
+	<iostream>
+	<windows.h>
+	<conio.h>
+	<time.h>
+
+1653225564 source:d:\kim\kundiman-ched\bsca 1st year\sem2\ccc102\final project pacman game dev\gamedev\main.cpp
+	<iostream>
+	<windows.h>
+	<conio.h>
+	<time.h>
+
