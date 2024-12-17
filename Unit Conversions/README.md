@@ -8,5 +8,5 @@
 - Distance Conversion: Converts kilometers to miles with an integrated formula and real-time result display.
 
 
-- Each conversion section is enriched with visuals, including icons and images, to enhance user experience and context. The website leverages JavaScript for DOM manipulation, enabling smooth interactions such as button-triggered conversions and dynamic updates to the UI. This project highlights proficiency in building user-focused, interactive web applications with a focus on clarity and functionality.
+Each conversion section is enriched with visuals, including icons and images, to enhance user experience and context. The website leverages JavaScript for DOM manipulation, enabling smooth interactions such as button-triggered conversions and dynamic updates to the UI. This project highlights proficiency in building user-focused, interactive web applications with a focus on clarity and functionality.
   
