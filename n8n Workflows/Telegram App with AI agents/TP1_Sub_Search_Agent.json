@@ -1,0 +1,184 @@
+{
+  "name": "TP1 Sub Search Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fa35d27e-d993-49af-839b-f59fb93aaa64",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "=You are a helpful research agent.\nYou use your Tools to search the web, you have access to hackernews, wikipedia and the serpAPI, search them all or use the right one."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "13ee5cdf-3389-49f4-abc7-5313edec11d3",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        40,
+        260
+      ],
+      "id": "64e2018c-aa83-44f8-b760-c5ca2bc4968e",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "isO663kegOChWpuR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        240,
+        260
+      ],
+      "id": "f8f7c19d-6244-456e-9650-cbdb565ddd0d",
+      "name": "Wikipedia"
+    },
+    {
+      "parameters": {
+        "resource": "all",
+        "limit": 20,
+        "additionalFields": {
+          "keyword": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Keyword', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.hackerNewsTool",
+      "typeVersion": 1,
+      "position": [
+        360,
+        240
+      ],
+      "id": "4f85d2e3-0193-4f4d-a10a-df027a4f80d3",
+      "name": "Hacker News"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "typeVersion": 1,
+      "position": [
+        500,
+        240
+      ],
+      "id": "97eaf335-6869-47d9-8884-457813ff4caf",
+      "name": "SerpAPI",
+      "credentials": {
+        "serpApi": {
+          "id": "MHrkuoZ8TylCJB1s",
+          "name": "SerpAPI account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "query": "Anthropic news"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hacker News": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "075bac3f-a25f-4087-a71e-3379c8978b3a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e0b3253ff5a6fcd01fe7ce9335115cae8992e2956501fe9a13becf04484d8558"
+  },
+  "id": "sNG5JQavJ1p1PWVc",
+  "tags": []
+}

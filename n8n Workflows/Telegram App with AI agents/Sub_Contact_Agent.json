@@ -1,0 +1,295 @@
+{
+  "name": "Sub Contact Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -640,
+        300
+      ],
+      "id": "2cf8cbe7-f0fe-4d7f-9810-586b901bd2bf",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "isO663kegOChWpuR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4f360190-a717-4a93-8336-d03ea65975d5",
+              "name": "response",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0226f411-96e9-40ed-8026-b4692b523f72",
+      "name": "Response"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4f360190-a717-4a93-8336-d03ea65975d5",
+              "name": "response",
+              "value": "An error occurred. Please try again.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        180
+      ],
+      "id": "c0a50103-748c-4b5a-b742-6f15684237f1",
+      "name": "Try Again"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -740,
+        80
+      ],
+      "id": "6d964217-42b7-4449-aaf7-3cf8c70cd603",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1w4YUu9Ck7emsGjZAOU3zASt_PkkCvk3qHnsgkseOXts",
+          "mode": "list",
+          "cachedResultName": "Contact",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1w4YUu9Ck7emsGjZAOU3zASt_PkkCvk3qHnsgkseOXts/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1w4YUu9Ck7emsGjZAOU3zASt_PkkCvk3qHnsgkseOXts/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        -400,
+        380
+      ],
+      "id": "9ac5043d-a581-439f-818f-b757e77231ff",
+      "name": "getContacts",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ul4r2EGY20NYud0Y",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1w4YUu9Ck7emsGjZAOU3zASt_PkkCvk3qHnsgkseOXts",
+          "mode": "list",
+          "cachedResultName": "Contact",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1w4YUu9Ck7emsGjZAOU3zASt_PkkCvk3qHnsgkseOXts/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1w4YUu9Ck7emsGjZAOU3zASt_PkkCvk3qHnsgkseOXts/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Email__using_to_match_', ``, 'string') }}",
+            "Name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Name', ``, 'string') }}",
+            "Phone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Phone', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        -240,
+        380
+      ],
+      "id": "f1ead548-48bb-4c96-a58e-1ecb0a00670b",
+      "name": "addContact",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ul4r2EGY20NYud0Y",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "=# Role  \nYou are an assistant for contact management. Your tasks include retrieving contacts, adding new contacts, and updating contact information.  \n\n# Tools  \n\n## getContacts  \nUse this tool to retrieve contact information.  \n\n## addContact  \nUse this tool to save new contact information.  \n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -520,
+        80
+      ],
+      "id": "07a3f81d-ed5c-4237-a380-9641b3df669c",
+      "name": "Contact Agent",
+      "onError": "continueErrorOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Contact Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Contact Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getContacts": {
+      "ai_tool": [
+        [
+          {
+            "node": "Contact Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "addContact": {
+      "ai_tool": [
+        [
+          {
+            "node": "Contact Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact Agent": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Try Again",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c07742b4-c66a-48b7-8728-429411d6859d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e0b3253ff5a6fcd01fe7ce9335115cae8992e2956501fe9a13becf04484d8558"
+  },
+  "id": "dJEKeBv8fJ0W1UQx",
+  "tags": []
+}

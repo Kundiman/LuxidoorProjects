@@ -1,0 +1,357 @@
+{
+  "name": "Sub Calendar Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "bfca2f10-6ada-46ff-8ad8-a8687b240611",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        -900,
+        -20
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "isO663kegOChWpuR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7ab380a2-a8d3-421c-ab4e-748ea8fb7904",
+              "name": "response",
+              "value": "Unable to perform task. Please try again.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ce21691b-5609-44bb-9251-640ca241ca61",
+      "name": "Try Again",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -380,
+        -220
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "39c2f302-03be-4464-a17a-d7cc481d6d44",
+              "name": "=response",
+              "value": "={{$json.output}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2f413d91-3356-4f50-affe-2ee079b475e8",
+      "name": "Success",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -380,
+        -400
+      ]
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1060,
+        -240
+      ],
+      "id": "370bfafe-4c58-41ce-8c50-d184cb005cbc",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "calendar": {
+          "__rl": true,
+          "value": "kim.kundiman@g.msuiit.edu.ph",
+          "mode": "list",
+          "cachedResultName": "kim.kundiman@g.msuiit.edu.ph"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', `The ID of the event`, 'string') }}",
+        "updateFields": {
+          "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', `The end time of the event`, 'string') }}",
+          "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', `The start time of the event`, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -260,
+        160
+      ],
+      "id": "642e2115-929a-4685-998e-a96344e06db9",
+      "name": "updateEvent",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pReg78S93UWUUo2e",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "arnio93@gmail.com",
+          "mode": "list",
+          "cachedResultName": "arnio93@gmail.com"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', `The ID of the event`, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -120,
+        140
+      ],
+      "id": "f4e73ba1-5e16-4ba4-b63e-7be66d275c7e",
+      "name": "deleteEvent",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pReg78S93UWUUo2e",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "kim.kundiman@g.msuiit.edu.ph",
+          "mode": "list",
+          "cachedResultName": "kim.kundiman@g.msuiit.edu.ph"
+        },
+        "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('After', `The day before the date desired by the user`, 'string') }}",
+        "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Before', `The day after the date desired by the user`, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -580,
+        140
+      ],
+      "id": "1a1bdef4-775d-41fa-8110-5647d268b612",
+      "name": "getEvents",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pReg78S93UWUUo2e",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "kim.kundiman@g.msuiit.edu.ph",
+          "mode": "list",
+          "cachedResultName": "kim.kundiman@g.msuiit.edu.ph"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', `The start time of the event`, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', `The end time of the event`, 'string') }}",
+        "additionalFields": {
+          "attendees": [],
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', `The title of the event`, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -720,
+        140
+      ],
+      "id": "ce56fb75-8bcf-4964-90ed-563b5ce919c9",
+      "name": "createEvent",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pReg78S93UWUUo2e",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "arnio93@gmail.com",
+          "mode": "list",
+          "cachedResultName": "arnio93@gmail.com"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', `Der Startzeitpunkt des Ereignisses.`, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', `Der Endzeitpunkt des Ereignisses.`, 'string') }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Attendees', `Die Emailadresse des Teilnehmers.`, 'string') }}"
+          ],
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', `Der Titel des Ereignisses.`, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -420,
+        140
+      ],
+      "id": "287665a6-3bb3-4572-9fdd-e567ce79fc49",
+      "name": "createEventWithAttendee",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "pReg78S93UWUUo2e",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "=# Role  \nYou are a calendar agent. Your tasks include creating, retrieving, and deleting events in the user's calendar.  \n\n# Tools  \n\n## getEvents  \nUse this tool to retrieve calendar schedules upon request.  \n\n## createEvent  \nUse this tool to create a solo appointment.  \n\n## updateEvent  \nUse this tool to update an event. You must first use **\"getEvents\"** to retrieve the ID of the event that needs to be updated.  \n\n## createEventWithAttendee  \nUse this tool to schedule an event with attendees.  \n\n## deleteEvent  \nUse this tool to delete an event. You must first use **\"getEvents\"** to retrieve the ID of the event that needs to be deleted.  \n\n  \ndate/time: **{{ $now }}**  \n"
+        }
+      },
+      "id": "f44699d0-49ba-4615-b543-8de2b4af7094",
+      "name": "Calender Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        -820,
+        -240
+      ],
+      "onError": "continueErrorOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Calender Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Calender Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "updateEvent": {
+      "ai_tool": [
+        [
+          {
+            "node": "Calender Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deleteEvent": {
+      "ai_tool": [
+        [
+          {
+            "node": "Calender Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getEvents": {
+      "ai_tool": [
+        [
+          {
+            "node": "Calender Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "createEvent": {
+      "ai_tool": [
+        [
+          {
+            "node": "Calender Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "createEventWithAttendee": {
+      "ai_tool": [
+        [
+          {
+            "node": "Calender Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calender Agent": {
+      "main": [
+        [
+          {
+            "node": "Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Try Again",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fcd68576-9297-4d86-b6fd-f1cd39bd97e4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e0b3253ff5a6fcd01fe7ce9335115cae8992e2956501fe9a13becf04484d8558"
+  },
+  "id": "rWOudtgOFXc0Uz1e",
+  "tags": []
+}
